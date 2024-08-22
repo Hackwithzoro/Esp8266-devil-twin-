@@ -1,0 +1,30 @@
+#include <ESP8266WiFi.h>
+
+// Set up the WiFi credentials for the evil twin AP
+const char* ssid = "EvilTwin";
+const char* password = "your_password";
+
+// Set up the channel for the evil twin AP
+const int channel = 1;
+
+void setup() {
+  Serial.begin(115200);
+
+  // Set up the WiFi mode to AP
+  WiFi.mode(WIFI_AP);
+
+  // Set up the AP configuration
+  WiFi.softAPConfig(IPAddress(192, 168, 1, 1), IPAddress(192, 168, 1, 1), IPAddress(255, 255, 255, 0));
+  WiFi.softAP(ssid, password, channel);
+
+  Serial.println("Evil twin AP started");
+}
+
+void loop() {
+  // Handle incoming connections
+  WiFiClient client = WiFi.softAP.getStation();
+  if (client) {
+    Serial.println("Client connected");
+    // Handle client requests and responses
+  }
+}
